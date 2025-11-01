@@ -1,0 +1,45 @@
+{
+  "name": "cse341-node-contacts",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/jcampos-94/cse341-node-contacts#readme",
+  "bugs": {
+    "url": "https://github.com/jcampos-94/cse341-node-contacts/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcampos-94/cse341-node-contacts.git"
+  },
+  "license": "ISC",
+  "author": "Juan Campos",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "swagger": "node swagger.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/css": "^0.7.0",
+    "@eslint/js": "^9.26.0",
+    "@eslint/json": "^0.12.0",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.1.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3"
+  }
+}
