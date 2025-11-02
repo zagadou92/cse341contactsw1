@@ -1,17 +1,17 @@
 {
-  "name": "cse341-node-contacts",
+  "name": "cse341contactsw1",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/jcampos-94/cse341-node-contacts#readme",
+  "homepage": "https://github.com/zagadou92/cse341-node-contacts#readme",
   "bugs": {
-    "url": "https://github.com/jcampos-94/cse341-node-contacts/issues"
+    "url": "https://github.com/zagadou92/cse341-node-contacts/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jcampos-94/cse341-node-contacts.git"
+    "url": "git+https://github.com/zagadou92/cse341-node-contacts.git"
   },
   "license": "ISC",
-  "author": "Juan Campos",
+  "author": "Zagadou Franck",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
