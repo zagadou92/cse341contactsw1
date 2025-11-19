@@ -7,7 +7,7 @@ const mongo = getDbClient();
 export const readersController = {
   getAll: async (req, res) => {
     //#swagger.tags=['Readers']
-    const result = await mongo.db("cse341").collection("readers").find();
+    const result = await mongo.db("contactsdb").collection("readers").find();
     result.toArray().then((readers) => {
       res.setHeader("Content-Type", "application/json");
       res.status(200).json(readers);
@@ -18,7 +18,7 @@ export const readersController = {
     //#swagger.tags=['Readers']
     const readerId = new ObjectId(req.params.id);
     const result = await mongo
-      .db("cse341")
+      .db("contactsdb")
       .collection("readers")
       .find({ _id: readerId });
     result.toArray().then((readers) => {
