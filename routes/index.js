@@ -6,7 +6,7 @@ import { readersRouter } from "./readers.js";
 export const router = Router();
 
 // Route Swagger (Documentation)
-router.use("/docs", swaggerRouter);
+router.use("/api-docs", swaggerRouter);
 
 // Route de test
 router.get("/", (req, res) => {

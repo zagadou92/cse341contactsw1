@@ -2,22 +2,17 @@
   "swagger": "2.0",
   "info": {
     "title": "Reading API",
-    "desccription": "CSE341 Project 2 - API to track books that readers have read",
-    "version": "1.0.0",
-    "description": ""
+    "description": "CSE341 Project 2 - API to track books that readers have read",
+    "version": "1.0.0"
   },
   "host": "cse341contactsw1.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "paths": {
     "/": {
       "get": {
-        "tags": [
-          "Hello Readers"
-        ],
-        "description": "",
+        "tags": ["Hello Readers"],
+        "description": "Route de test de l'API",
         "responses": {
           "200": {
             "description": "OK"
@@ -25,26 +20,19 @@
         }
       }
     },
-    "/books/": {
+
+    "/books": {
       "get": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Books"],
+        "description": "Récupérer la liste des livres",
+        "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       },
       "post": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
+        "tags": ["Books"],
+        "description": "Ajouter un livre",
         "parameters": [
           {
             "name": "body",
@@ -52,53 +40,30 @@
             "schema": {
               "type": "object",
               "properties": {
-                "isbn": {
-                  "example": "any"
-                },
-                "title": {
-                  "example": "any"
-                },
-                "author": {
-                  "example": "any"
-                },
-                "publisher": {
-                  "example": "any"
-                },
-                "year": {
-                  "example": "any"
-                },
-                "edition": {
-                  "example": "any"
-                },
-                "format": {
-                  "example": "any"
-                }
+                "isbn": { "type": "string" },
+                "title": { "type": "string" },
+                "author": { "type": "string" },
+                "publisher": { "type": "string" },
+                "year": { "type": "string" },
+                "edition": { "type": "string" },
+                "format": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "422": { "description": "Unprocessable Entity" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
+
     "/books/{id}": {
       "get": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Books"],
+        "description": "Récupérer un livre via son ID",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -108,16 +73,13 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       },
+
       "put": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
+        "tags": ["Books"],
+        "description": "Mettre à jour un livre",
         "parameters": [
           {
             "name": "id",
@@ -131,48 +93,27 @@
             "schema": {
               "type": "object",
               "properties": {
-                "isbn": {
-                  "example": "any"
-                },
-                "title": {
-                  "example": "any"
-                },
-                "author": {
-                  "example": "any"
-                },
-                "publisher": {
-                  "example": "any"
-                },
-                "year": {
-                  "example": "any"
-                },
-                "edition": {
-                  "example": "any"
-                },
-                "format": {
-                  "example": "any"
-                }
+                "isbn": { "type": "string" },
+                "title": { "type": "string" },
+                "author": { "type": "string" },
+                "publisher": { "type": "string" },
+                "year": { "type": "string" },
+                "edition": { "type": "string" },
+                "format": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "422": { "description": "Unprocessable Entity" },
+          "500": { "description": "Internal Server Error" }
         }
       },
+
       "delete": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
+        "tags": ["Books"],
+        "description": "Supprimer un livre",
         "parameters": [
           {
             "name": "id",
@@ -182,24 +123,17 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
+
     "/books/isbn/{isbn}": {
       "get": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Books"],
+        "description": "Récupérer un livre via un ISBN",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "isbn",
@@ -209,32 +143,23 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       }
     },
-    "/readers/": {
+
+    "/readers": {
       "get": {
-        "tags": [
-          "Readers"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Readers"],
+        "description": "Récupérer la liste des lecteurs",
+        "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       },
       "post": {
-        "tags": [
-          "Readers"
-        ],
-        "description": "",
+        "tags": ["Readers"],
+        "description": "Ajouter un lecteur",
         "parameters": [
           {
             "name": "body",
@@ -242,38 +167,25 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "books": {
-                  "example": "any"
-                }
+                "username": { "type": "string" },
+                "books": { "type": "array", "items": { "type": "string" } }
               }
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "422": { "description": "Unprocessable Entity" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
+
     "/readers/{id}": {
       "get": {
-        "tags": [
-          "Readers"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Readers"],
+        "description": "Récupérer un lecteur via son ID",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -283,16 +195,13 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       },
+
       "put": {
-        "tags": [
-          "Readers"
-        ],
-        "description": "",
+        "tags": ["Readers"],
+        "description": "Mettre à jour un lecteur",
         "parameters": [
           {
             "name": "id",
@@ -306,33 +215,22 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "books": {
-                  "example": "any"
-                }
+                "username": { "type": "string" },
+                "books": { "type": "array", "items": { "type": "string" } }
               }
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "422": { "description": "Unprocessable Entity" },
+          "500": { "description": "Internal Server Error" }
         }
       },
+
       "delete": {
-        "tags": [
-          "Readers"
-        ],
-        "description": "",
+        "tags": ["Readers"],
+        "description": "Supprimer un lecteur",
         "parameters": [
           {
             "name": "id",
@@ -342,12 +240,8 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     }
