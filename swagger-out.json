@@ -1,248 +1,225 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "title": "Reading API",
-    "description": "CSE341 Project 2 - API to track books that readers have read",
-    "version": "1.0.0"
+    "title": "Contacts API",
+    "version": "1.0.0",
+    "description": "Documentation de l'API CSE341 Contacts - Gestion des livres et lecteurs"
   },
-  "host": "cse341contactsw1.onrender.com",
-  "basePath": "/",
-  "schemes": ["https"],
+  "servers": [
+    {
+      "url": "https://cse341contactsw1.onrender.com"
+    }
+  ],
   "paths": {
     "/": {
       "get": {
         "tags": ["Hello Readers"],
-        "description": "Route de test de l'API",
+        "summary": "Page d'accueil de l'API",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
-
     "/books": {
       "get": {
         "tags": ["Books"],
-        "description": "Récupérer la liste des livres",
-        "produces": ["application/json"],
+        "summary": "Liste tous les livres",
         "responses": {
-          "200": { "description": "OK" }
+          "200": {
+            "description": "Liste renvoyée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Book"
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "post": {
         "tags": ["Books"],
-        "description": "Ajouter un livre",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "isbn": { "type": "string" },
-                "title": { "type": "string" },
-                "author": { "type": "string" },
-                "publisher": { "type": "string" },
-                "year": { "type": "string" },
-                "edition": { "type": "string" },
-                "format": { "type": "string" }
+        "summary": "Ajouter un livre",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
               }
             }
           }
-        ],
+        },
         "responses": {
-          "204": { "description": "No Content" },
+          "201": { "description": "Livre créé" },
           "422": { "description": "Unprocessable Entity" },
           "500": { "description": "Internal Server Error" }
         }
       }
     },
-
     "/books/{id}": {
       "get": {
         "tags": ["Books"],
-        "description": "Récupérer un livre via son ID",
-        "produces": ["application/json"],
+        "summary": "Récupérer un livre par ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "200": { "description": "OK" }
+          "200": { "description": "Livre renvoyé avec succès" },
+          "404": { "description": "Livre non trouvé" }
         }
       },
-
       "put": {
         "tags": ["Books"],
-        "description": "Mettre à jour un livre",
+        "summary": "Mettre à jour un livre par ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "isbn": { "type": "string" },
-                "title": { "type": "string" },
-                "author": { "type": "string" },
-                "publisher": { "type": "string" },
-                "year": { "type": "string" },
-                "edition": { "type": "string" },
-                "format": { "type": "string" }
-              }
-            }
+            "schema": { "type": "string" }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Book" } }
+          }
+        },
         "responses": {
-          "204": { "description": "No Content" },
+          "204": { "description": "Livre mis à jour" },
           "422": { "description": "Unprocessable Entity" },
           "500": { "description": "Internal Server Error" }
         }
       },
-
       "delete": {
         "tags": ["Books"],
-        "description": "Supprimer un livre",
+        "summary": "Supprimer un livre par ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
-          "204": { "description": "No Content" },
+          "204": { "description": "Livre supprimé" },
           "500": { "description": "Internal Server Error" }
         }
       }
     },
-
-    "/books/isbn/{isbn}": {
-      "get": {
-        "tags": ["Books"],
-        "description": "Récupérer un livre via un ISBN",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "isbn",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": { "description": "OK" }
-        }
-      }
-    },
-
     "/readers": {
       "get": {
         "tags": ["Readers"],
-        "description": "Récupérer la liste des lecteurs",
-        "produces": ["application/json"],
+        "summary": "Liste tous les lecteurs",
         "responses": {
-          "200": { "description": "OK" }
+          "200": {
+            "description": "Liste renvoyée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Reader" }
+                }
+              }
+            }
+          }
         }
       },
       "post": {
         "tags": ["Readers"],
-        "description": "Ajouter un lecteur",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": { "type": "string" },
-                "books": { "type": "array", "items": { "type": "string" } }
-              }
-            }
+        "summary": "Ajouter un lecteur",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Reader" } }
           }
-        ],
+        },
         "responses": {
-          "204": { "description": "No Content" },
+          "201": { "description": "Lecteur créé" },
           "422": { "description": "Unprocessable Entity" },
           "500": { "description": "Internal Server Error" }
         }
       }
     },
-
     "/readers/{id}": {
       "get": {
         "tags": ["Readers"],
-        "description": "Récupérer un lecteur via son ID",
-        "produces": ["application/json"],
+        "summary": "Récupérer un lecteur par ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
-          "200": { "description": "OK" }
+          "200": { "description": "Lecteur renvoyé avec succès" },
+          "404": { "description": "Lecteur non trouvé" }
         }
       },
-
       "put": {
         "tags": ["Readers"],
-        "description": "Mettre à jour un lecteur",
+        "summary": "Mettre à jour un lecteur par ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": { "type": "string" },
-                "books": { "type": "array", "items": { "type": "string" } }
-              }
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Reader" } } }
+        },
         "responses": {
-          "204": { "description": "No Content" },
+          "204": { "description": "Lecteur mis à jour" },
           "422": { "description": "Unprocessable Entity" },
           "500": { "description": "Internal Server Error" }
         }
       },
-
       "delete": {
         "tags": ["Readers"],
-        "description": "Supprimer un lecteur",
+        "summary": "Supprimer un lecteur par ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
-          "204": { "description": "No Content" },
+          "204": { "description": "Lecteur supprimé" },
           "500": { "description": "Internal Server Error" }
         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "properties": {
+          "isbn": { "type": "string", "example": "9783161484100" },
+          "title": { "type": "string", "example": "Le Petit Prince" },
+          "author": { "type": "string", "example": "Antoine de Saint-Exupéry" },
+          "publisher": { "type": "string", "example": "Éditions Gallimard" },
+          "year": { "type": "integer", "example": 1943 },
+          "edition": { "type": "string", "example": "1ère édition" },
+          "format": { "type": "string", "example": "Broché" }
+        },
+        "required": ["isbn", "title", "author"]
+      },
+      "Reader": {
+        "type": "object",
+        "properties": {
+          "firstname": { "type": "string", "example": "John" },
+          "lastname": { "type": "string", "example": "Doe" },
+          "email": { "type": "string", "example": "john.doe@gmail.com" },
+          "books": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["firstname", "lastname", "email"]
       }
     }
   }

@@ -1,19 +1,20 @@
-import { Router } from "express";   // ❗ Correct import
+import { Router } from "express";
 import { booksRouter } from "./books.js";
-import { swaggerRouter } from "./swagger.js";
 import { readersRouter } from "./readers.js";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "../swagger.js"; // ton swaggerSpec généré
 
 export const router = Router();
 
-// Route Swagger (Documentation)
-router.use("/api-docs", swaggerRouter);
+// --- Swagger (Documentation API) ---
+router.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Route de test
+// --- Route de test ---
 router.get("/", (req, res) => {
-  //#swagger.tags=['Hello Readers']
-  res.send("Hello Readers");
+  //#swagger.tags=['Home']
+  res.send("Hello Readers & Books API!");
 });
 
-// Routes API
+// --- Routes API ---
 router.use("/books", booksRouter);
 router.use("/readers", readersRouter);

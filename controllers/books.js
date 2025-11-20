@@ -58,7 +58,7 @@ export const booksController = {
     try {
       const { isbn, title, author, publisher, year, edition, format } = req.body;
 
-      // Validation
+      // Validation simple
       if (!isbn || !title || !author) {
         return res.status(400).json({ message: "ISBN, title, and author are required." });
       }
@@ -84,7 +84,7 @@ export const booksController = {
       const id = new ObjectId(req.params.id);
       const { isbn, title, author, publisher, year, edition, format } = req.body;
 
-      // Validation
+      // Vérifier qu'au moins un champ est présent pour la mise à jour
       if (!isbn && !title && !author && !publisher && !year && !edition && !format) {
         return res.status(400).json({ message: "At least one field must be provided for update." });
       }
@@ -93,9 +93,9 @@ export const booksController = {
       }
 
       const updatedBook = { isbn, title, author, publisher, year, edition, format };
-      const response = await books.replaceOne({ _id: id }, updatedBook);
+      const response = await books.updateOne({ _id: id }, { $set: updatedBook });
 
-      if (response.modifiedCount === 0) {
+      if (response.matchedCount === 0) {
         return res.status(404).json({ message: "Book not found" });
       }
 

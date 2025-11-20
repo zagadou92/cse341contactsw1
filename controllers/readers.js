@@ -1,99 +1,96 @@
-import { dbInit, getDbClient } from "../data/database.js";
+import { dbInit, getDb } from "../data/database.js";
 import { ObjectId } from "mongodb";
 
 await dbInit();
-const mongo = getDbClient();
+const db = getDb();
+const readers = db.collection("readers");
 
 export const readersController = {
+
+  // -------------------------------------------------------
+  // GET ALL READERS
+  // -------------------------------------------------------
   getAll: async (req, res) => {
-    //#swagger.tags=['Readers']
-    const result = await mongo.db("contactsdb").collection("readers").find();
-    result.toArray().then((readers) => {
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(readers);
-    });
+    try {
+      const result = await readers.find().toArray();
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching readers", error });
+    }
   },
 
+  // -------------------------------------------------------
+  // GET ONE READER BY ID
+  // -------------------------------------------------------
   getSingle: async (req, res) => {
-    //#swagger.tags=['Readers']
-    const readerId = new ObjectId(req.params.id);
-    const result = await mongo
-      .db("contactsdb")
-      .collection("readers")
-      .find({ _id: readerId });
-    result.toArray().then((readers) => {
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(readers[0]);
-    });
+    try {
+      const id = new ObjectId(req.params.id);
+      const reader = await readers.findOne({ _id: id });
+      if (!reader) return res.status(404).json({ message: "Reader not found" });
+      res.status(200).json(reader);
+    } catch (error) {
+      res.status(500).json({ message: "Invalid ID", error });
+    }
   },
 
+  // -------------------------------------------------------
+  // CREATE A READER
+  // -------------------------------------------------------
   createReader: async (req, res) => {
-    //#swagger.tags=['Readers']
-    const reader = {
-      username:req.body.username,
-      books:req.body.books
-    };
+    try {
+      const { firstname, lastname, email } = req.body;
 
-    const response = await mongo
-      .db("cse341")
-      .collection("readers")
-      .insertOne(reader);
+      // Validation simple
+      if (!firstname || !lastname || !email) {
+        return res.status(400).json({ message: "Firstname, lastname, and email are required." });
+      }
 
-    //Check database response
-    if (response.acknowledged) {
-      res.status(204).send();
-    } else {
-      res
-        .status(500)
-        .json(
-          response.error || "An error occurred while inserting the reader.",
-        );
+      const reader = { firstname, lastname, email };
+      const response = await readers.insertOne(reader);
+
+      res.status(201).json({ message: "Reader created successfully", id: response.insertedId, reader });
+    } catch (error) {
+      res.status(500).json({ message: "Error inserting reader", error });
     }
   },
 
+  // -------------------------------------------------------
+  // UPDATE A READER
+  // -------------------------------------------------------
   updateReader: async (req, res) => {
-    //#swagger.tags=['Readers']
-    const readerId = new ObjectId(req.params.id);
-    const reader = {
-      username:req.body.username,
-      books:req.body.books
-    };
+    try {
+      const id = new ObjectId(req.params.id);
+      const { firstname, lastname, email } = req.body;
 
-    const response = await mongo
-      .db("cse341")
-      .collection("readers")
-      .replaceOne({ _id: readerId }, reader);
+      // Vérifier qu'au moins un champ est fourni pour la mise à jour
+      if (!firstname && !lastname && !email) {
+        return res.status(400).json({ message: "At least one field must be provided for update." });
+      }
 
-    //Check database response
-    if (response.modifiedCount > 0) {
-      res.status(204).send();
-    } else {
-      res
-        .status(500)
-        .json(
-          response.error || "An error occurred while updating the reader.",
-        );
+      const updatedReader = { firstname, lastname, email };
+      const response = await readers.updateOne({ _id: id }, { $set: updatedReader });
+
+      if (response.matchedCount === 0) return res.status(404).json({ message: "Reader not found" });
+
+      res.status(200).json({ message: "Reader updated successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error updating reader", error });
     }
   },
 
+  // -------------------------------------------------------
+  // DELETE A READER
+  // -------------------------------------------------------
   deleteReader: async (req, res) => {
-    //#swagger.tags=['Readers']
-    const readerId = new ObjectId(req.params.id);
+    try {
+      const id = new ObjectId(req.params.id);
+      const response = await readers.deleteOne({ _id: id });
 
-    const response = await mongo
-      .db("cse341")
-      .collection("readers")
-      .deleteOne({ _id: readerId });
+      if (response.deletedCount === 0) return res.status(404).json({ message: "Reader not found" });
 
-    //check mongo respose
-    if (response.deletedCount > 0) {
-      res.status(204).send();
-    } else {
-      res
-        .status(500)
-        .json(
-          response.error || "An error occurred while deleting the reader.",
-        );
+      res.status(200).json({ message: "Reader deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting reader", error });
     }
   },
 };

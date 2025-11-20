@@ -1,9 +1,18 @@
-import {check} from 'express-validator';
+import { check } from "express-validator";
 
-export const readerValidator = ()=>{
+export const readerValidator = () => {
+  return [
+    check("username")
+      .exists({ checkFalsy: true })
+      .isString()
+      .trim()
+      .withMessage("Le nom d'utilisateur est requis et doit être une chaîne de caractères."),
 
-    return[
-        check('username').exists().isString().trim().withMessage('Invalid reader username.'),
-        check('books').exists().isArray().custom(list=>{ return list.every(book=>typeof book === 'string')}).withMessage('Invalid book list.')
-    ]
-}
+    check("books")
+      .exists({ checkFalsy: true })
+      .isArray()
+      .withMessage("La liste des livres est requise et doit être un tableau.")
+      .custom((list) => list.every((book) => typeof book === "string"))
+      .withMessage("Chaque livre de la liste doit être une chaîne de caractères."),
+  ];
+};
